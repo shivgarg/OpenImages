@@ -1,8 +1,6 @@
 import pandas as pd 
 import sys
-
-#importlib.reload(sys)
-#sys.setdefaultencoding('utf8')
+import os
 import xml.etree.cElementTree as ET
 from PIL import Image
 
@@ -12,11 +10,15 @@ grouped = bbox.groupby('ImageID')
 
 image_dir = sys.argv[2]
 anno_dir = sys.argv[3]
+non_existent_file = sys.argv[4]
+log = open(non_existent_file,'w')
 
 for name,group in grouped:
     image_path = image_dir + '/' + name + '.jpg'
     anno_file = anno_dir + '/' + name + '.xml'
-    
+    if(not os.path.isfile(image_path)):
+        log.write(image_path+'\n')
+        continue
     im = Image.open(image_path)
     root = ET.Element("annotation")
     ET.SubElement(root,"folder").text = 'OpenImages'
@@ -41,5 +43,5 @@ for name,group in grouped:
     print("Writing to file ", anno_file)
     tree.write(anno_file)
 
-            
+log.close()
             

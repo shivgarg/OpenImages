@@ -12,5 +12,5 @@ def convert(img):
         image.convert('RGB').save(image_dir+'/'+img)
 
 for _,_,files in os.walk(image_dir):
-    with Pool(8) as p:
+    with Pool(4) as p:
         p.map(convert,files)

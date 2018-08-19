@@ -38,15 +38,15 @@ for name,group in grouped:
         ET.SubElement(obj,"pose").text = 'Unspecified'
         ET.SubElement(obj,"difficult").text = '0'
         bndbox = ET.SubElement(obj,"bndbox")
-        xmin = max(min(row['XMin1'],row['XMin2']),0)*im.width
-        xmax = min(max(row['XMax1'],row['XMax2']),1)*im.width
-        ymin = max(min(row['YMin1'],row['YMin2']),0)*im.height
-        ymax = min(max(row['YMax1'],row['YMax2']),1)*im.height
-        ET.SubElement(bndbox,"xmin").text = str(int(xmin))
-        ET.SubElement(bndbox,"ymin").text = str(int(ymin))
-        ET.SubElement(bndbox,"xmax").text = str(int(xmax))
-        ET.SubElement(bndbox,"ymax").text = str(int(ymax))
-        continue
+        xmin = int(max(min(row['XMin1'],row['XMin2']),0)*im.width)
+        xmax = int(min(max(row['XMax1'],row['XMax2']),1)*im.width)
+        ymin = int(max(min(row['YMin1'],row['YMin2']),0)*im.height)
+        ymax = int(min(max(row['YMax1'],row['YMax2']),1)*im.height)
+        ET.SubElement(bndbox,"xmin").text = str(xmin)
+        ET.SubElement(bndbox,"ymin").text = str(ymin)
+        ET.SubElement(bndbox,"xmax").text = str(xmax)
+        ET.SubElement(bndbox,"ymax").text = str(ymax)
+        
         im.crop((xmin,ymin,xmax,ymax)).save(image_dir+'_crop/'+name+'_'+str(cnt)+'.jpg')
     
         root_crop = ET.Element("annotation")

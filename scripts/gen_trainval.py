@@ -10,7 +10,8 @@ if dataset_split == 'is':
 elif dataset_split == 'region':
     vrd = vrd[vrd['RelationshipLabel'] != 'is'].groupby(['RelationshipLabel'])
 else:
-    vrd = vrd[vrd['RelationshipLabel'] != 'is'].groupby(['LabelName1','LabelName2'])
+    print("Use gen_trainval_crop.py\n")
+    sys.exit(0)
 
 
 path = sys.argv[3]

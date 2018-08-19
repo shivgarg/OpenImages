@@ -1,0 +1,3 @@
+[submodule "caffe-ssd"]
+	path = caffe-ssd
+	url = git@github.com:shivgarg/caffe-ssd.git

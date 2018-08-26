@@ -6,14 +6,14 @@ from PIL import Image
 
 
 bbox = pd.read_csv(sys.argv[1])
-grouped = bbox[bbox['RelationshipLabel']=='is'].groupby('ImageID')
+grouped = bbox.groupby('ImageID')
 
 image_dir = sys.argv[2]
 anno_dir = sys.argv[3]
 logfile = open(sys.argv[4],'w')
 
-objs = {}
-cnt = 0
+objs = {'nop':'0 ','/m/02gy9n':'1','/m/05z87':'2','/m/0dnr7':'3','/m/04lbp':'4','/m/083vt':'5'}
+cnt = 0 
 for name,group in grouped:
     image_path = image_dir + '/' + name + '.jpg'
     anno_file = anno_dir + '/' + name + '.xml'
@@ -32,14 +32,15 @@ for name,group in grouped:
     for _,row in group.iterrows():
         cnt += 1
         obj = ET.SubElement(root,"object")
-        ET.SubElement(obj,"name").text = row['LabelName1']+'?'+row['LabelName2']
+        ET.SubElement(obj,"name").text = row['LabelName']
         ET.SubElement(obj,"pose").text = 'Unspecified'
         ET.SubElement(obj,"difficult").text = '0'
         bndbox = ET.SubElement(obj,"bndbox")
-        ET.SubElement(bndbox,"xmin").text = str(int(max(row['XMin1'],0)*im.width))
-        ET.SubElement(bndbox,"ymin").text = str(int(max(row['YMin1'],0)*im.height))
-        ET.SubElement(bndbox,"xmax").text = str(int(min(row['XMax1'],1)*im.width))
-        ET.SubElement(bndbox,"ymax").text = str(int(min(row['YMax1'],1)*im.height))        
+        ET.SubElement(bndbox,"xmin").text = str(int(max(row['XMin'],0)*im.width))
+        ET.SubElement(bndbox,"ymin").text = str(int(max(row['YMin'],0)*im.height))
+        ET.SubElement(bndbox,"xmax").text = str(int(min(row['XMax'],1)*im.width))
+        ET.SubElement(bndbox,"ymax").text = str(int(min(row['YMax'],1)*im.height))
+        ET.SubElement(bndbox,"label").text = objs[row['LabelName2']]
     tree = ET.ElementTree(root)
     print("Writing to file ", anno_file, cnt)
     tree.write(anno_file)

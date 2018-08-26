@@ -6,7 +6,7 @@ dataset_split = sys.argv[2]
 
 vrd = vrd.sort_values(['ImageID'])
 if dataset_split == 'is':
-    vrd = vrd[vrd['RelationshipLabel'] == 'is'].groupby(['LabelName1','LabelName2'])
+    vrd = vrd.groupby(['LabelName','LabelName2'])
 elif dataset_split == 'region':
     vrd = vrd[vrd['RelationshipLabel'] != 'is'].groupby(['RelationshipLabel'])
 else:

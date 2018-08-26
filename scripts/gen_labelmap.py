@@ -5,7 +5,7 @@ vrd = pd.read_csv(sys.argv[1])
 dataset_split = sys.argv[2]
 
 if dataset_split == "is":
-    vrd = vrd[vrd['RelationshipLabel'] == 'is'].groupby(['LabelName1','LabelName2']).groups.keys()
+    vrd = vrd.groupby(['LabelName']).groups.keys()
 elif dataset_split == "region":
     vrd = vrd[vrd['RelationshipLabel'] != 'is'].groupby('RelationshipLabel').groups.keys()
 else:

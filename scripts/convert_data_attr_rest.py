@@ -34,7 +34,7 @@ for name,group in grouped:
         cnt += 1
         cnts += 1
         obj = ET.SubElement(root,"object")
-        ET.SubElement(obj,"name").text = row['RelationshipLabel']
+        ET.SubElement(obj,"name").text = 'box'
         ET.SubElement(obj,"pose").text = 'Unspecified'
         ET.SubElement(obj,"difficult").text = '0'
         bndbox = ET.SubElement(obj,"bndbox")
@@ -53,6 +53,7 @@ for name,group in grouped:
         ET.SubElement(root_crop,"folder").text = 'OpenImages'
         ET.SubElement(root_crop,"filename").text = name+'_'+str(cnt)+'.jpg'
         ET.SubElement(root_crop,"segmented").text = '0'
+        ET.SubElement(root_crop,"label").text = row['RelationshipLabel']
         size = ET.SubElement(root_crop,"size")
         ET.SubElement(size,"width").text = str(xmax-xmin)
         ET.SubElement(size,"height").text = str(ymax-ymin)

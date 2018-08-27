@@ -11,7 +11,7 @@ grouped = bbox[bbox['RelationshipLabel']!='is'].groupby('ImageID')
 image_dir = sys.argv[2]
 anno_dir = sys.argv[3]
 logfile = open(sys.argv[4],'w')
-objs = {}
+objs = {'at':'0', 'on':'1', 'holds': '2', 'plays':'3', 'interacts_with':'4', 'wears':'5', 'inside_of':'6', 'under':'7', 'hits':'8'}
 
 cnts = 0
 for name,group in grouped:
@@ -53,7 +53,7 @@ for name,group in grouped:
         ET.SubElement(root_crop,"folder").text = 'OpenImages'
         ET.SubElement(root_crop,"filename").text = name+'_'+str(cnt)+'.jpg'
         ET.SubElement(root_crop,"segmented").text = '0'
-        ET.SubElement(root_crop,"label").text = row['RelationshipLabel']
+        ET.SubElement(root_crop,"label").text = objs[row['RelationshipLabel']]
         size = ET.SubElement(root_crop,"size")
         ET.SubElement(size,"width").text = str(xmax-xmin)
         ET.SubElement(size,"height").text = str(ymax-ymin)

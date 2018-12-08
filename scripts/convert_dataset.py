@@ -13,9 +13,18 @@ anno_dir = sys.argv[3]
 non_existent_file = sys.argv[4]
 log = open(non_existent_file,'w')
 
+count = 0
+num = len(grouped)
+
 for name,group in grouped:
+    print name
+    count +=1
+    if count%1000 == 0:
+      print count,num
     image_path = image_dir + '/' + name + '.jpg'
     anno_file = anno_dir + '/' + name + '.xml'
+    if os.path.isfile(anno_file):
+        continue
     if(not os.path.isfile(image_path)):
         log.write(image_path+'\n')
         continue
@@ -40,7 +49,7 @@ for name,group in grouped:
         ET.SubElement(bndbox,"xmax").text = str(int(min(row['XMax'],1)*im.width))
         ET.SubElement(bndbox,"ymax").text = str(int(min(row['YMax'],1)*im.height))        
     tree = ET.ElementTree(root)
-    print("Writing to file ", anno_file)
+#    print("Writing to file ", anno_file)
     tree.write(anno_file)
 
 log.close()
